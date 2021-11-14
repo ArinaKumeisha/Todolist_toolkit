@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk'
 import {appReducer} from './app-reducer'
 import {authReducer} from './authReducer';
 import {configureStore} from "@reduxjs/toolkit";
+import {useDispatch} from "react-redux";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -17,7 +18,8 @@ export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
 })
-
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 

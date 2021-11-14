@@ -17,27 +17,25 @@ const initialState: InitialStateType = {
     isInitialized: false,
 }
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-const slice =  createSlice({
+const slice = createSlice({
     name: 'app',
     initialState: initialState,
     reducers: {
-        setAppErrorAC(state, action: PayloadAction< {error: string | null}>) {
+        setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error;
         },
-        setIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>){
+        setIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>) {
             state.isInitialized = action.payload.isInitialized
         },
-        setAppStatusAC(state, action: PayloadAction<{status: RequestStatusType}>){
+        setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         }
-
 
     }
 })
 
 export const appReducer = slice.reducer
-export const {setAppErrorAC, setIsInitializedAC, setAppStatusAC } = slice.actions
-
+export const {setAppErrorAC, setIsInitializedAC, setAppStatusAC} = slice.actions
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
@@ -45,11 +43,11 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(setIsLogin({isLogin: true}));
 
         } else {
-            dispatch(setAppErrorAC({ error: res.data.messages[0] }))
-           dispatch(setIsInitializedAC({ isInitialized: false }))
+            dispatch(setAppErrorAC({error: res.data.messages[0]}))
+            dispatch(setIsInitializedAC({isInitialized: false}))
         }
     })
-        .finally(()=>{
+        .finally(() => {
             dispatch(setIsInitializedAC({isInitialized: true}))
         })
 }
